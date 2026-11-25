@@ -1,0 +1,154 @@
+/* Mobile first: los estilos base son para celular.
+   Al final, un @media agranda el layout en pantallas anchas. */
+
+:root {
+  --verde: #0f766e;
+  --verde-claro: #ccfbf1;
+  --rojo: #b91c1c;
+  --rojo-claro: #fee2e2;
+  --azul: #1d4ed8;
+  --texto: #1f2937;
+  --suave: #6b7280;
+  --borde: #e5e7eb;
+  --fondo: #f3f4f6;
+  --tarjeta: #ffffff;
+  --radio: 12px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  color: var(--texto);
+  background: var(--fondo);
+  line-height: 1.4;
+}
+
+[hidden] { display: none !important; }
+
+h1, h2, h3 { margin: 0; }
+h3 { font-size: 1rem; margin-bottom: .75rem; }
+
+/* ---------- Login ---------- */
+.login { max-width: 420px; margin: 0 auto; padding: 2rem 1rem; }
+.login h1 { text-align: center; margin-bottom: 1.5rem; color: var(--verde); }
+
+.pestanias { display: flex; gap: .5rem; margin-bottom: .75rem; }
+.pestania {
+  flex: 1; padding: .6rem; border: 1px solid var(--borde); border-radius: var(--radio);
+  background: var(--tarjeta); font: inherit; cursor: pointer;
+}
+.pestania.activa { background: var(--verde); color: #fff; border-color: var(--verde); }
+
+/* ---------- Estructura ---------- */
+.barra {
+  position: sticky; top: 0; z-index: 10;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: .75rem 1rem; background: var(--verde); color: #fff; font-weight: 600;
+}
+.barra .usuario { font-weight: 400; font-size: .9rem; }
+.link { background: none; border: none; color: inherit; text-decoration: underline; font: inherit; cursor: pointer; padding: 0; }
+
+.contenido { padding: 1rem; display: flex; flex-direction: column; gap: 1rem; max-width: 1100px; margin: 0 auto; }
+
+.tarjeta { background: var(--tarjeta); border-radius: var(--radio); padding: 1rem; box-shadow: 0 1px 2px rgb(0 0 0 / .06); }
+
+/* ---------- Mes ---------- */
+.mes { display: flex; align-items: center; justify-content: space-between; }
+.mes h2 { font-size: 1.15rem; }
+.mes button {
+  width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--borde);
+  background: var(--tarjeta); font-size: 1.4rem; cursor: pointer;
+}
+
+/* ---------- Totales ---------- */
+.totales { display: grid; grid-template-columns: repeat(3, 1fr); gap: .5rem; }
+.total { background: var(--tarjeta); border-radius: var(--radio); padding: .6rem; text-align: center; }
+.total small { display: block; color: var(--suave); font-size: .75rem; }
+.total strong { font-size: .95rem; white-space: nowrap; }
+.total.ingreso strong { color: var(--verde); }
+.total.gasto strong { color: var(--rojo); }
+
+/* ---------- Formularios ---------- */
+form label { display: block; margin-bottom: .75rem; font-size: .9rem; color: var(--suave); }
+input, select {
+  display: block; width: 100%; margin-top: .25rem;
+  /* 16px evita que el iPhone haga zoom al tocar el campo */
+  font: inherit; font-size: 16px; color: var(--texto);
+  padding: .65rem .75rem; border: 1px solid var(--borde); border-radius: 8px; background: #fff;
+}
+input:focus, select:focus { outline: 2px solid var(--verde); outline-offset: 1px; }
+
+.selector-tipo { display: grid; grid-template-columns: 1fr 1fr; gap: .5rem; margin-bottom: .75rem; }
+.selector-tipo label { margin: 0; }
+.selector-tipo input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.selector-tipo span {
+  display: block; text-align: center; padding: .65rem; border-radius: 8px;
+  border: 1px solid var(--borde); color: var(--texto); cursor: pointer; font-weight: 600;
+}
+.selector-tipo input[value="Gasto"]:checked + span { background: var(--rojo-claro); border-color: var(--rojo); color: var(--rojo); }
+.selector-tipo input[value="Ingreso"]:checked + span { background: var(--verde-claro); border-color: var(--verde); color: var(--verde); }
+.selector-tipo input:focus-visible + span { outline: 2px solid var(--verde); }
+
+.acciones { display: flex; gap: .5rem; }
+.boton-principal, .boton-secundario {
+  flex: 1; padding: .8rem; border-radius: 8px; font: inherit; font-weight: 600; cursor: pointer;
+}
+.boton-principal { width: 100%; background: var(--verde); color: #fff; border: none; }
+.boton-principal:disabled { opacity: .6; }
+.boton-secundario { background: #fff; border: 1px solid var(--borde); }
+
+.error { color: var(--rojo); font-size: .9rem; min-height: 1.2em; margin: 0 0 .5rem; }
+
+/* ---------- Gráfico de barras (CSS puro, sin librerías) ---------- */
+.barras { display: flex; flex-direction: column; gap: .5rem; }
+.barra-fila { display: grid; grid-template-columns: 7.5rem 1fr auto; align-items: center; gap: .5rem; font-size: .85rem; }
+.barra-nombre { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.barra-pista { background: var(--fondo); border-radius: 4px; height: 12px; overflow: hidden; }
+.barra-relleno { height: 100%; background: var(--rojo); border-radius: 4px; transition: width .3s; }
+.barras.personas .barra-relleno { background: var(--azul); }
+.vacio { color: var(--suave); font-size: .9rem; margin: 0; }
+
+/* ---------- Lista ---------- */
+.filtros { display: grid; grid-template-columns: 1fr 1fr; gap: .5rem; margin-bottom: .75rem; }
+.filtros select { margin: 0; font-size: 14px; padding: .5rem; }
+.filtros select:last-child { grid-column: 1 / -1; }
+
+.lista { list-style: none; margin: 0; padding: 0; }
+.item { display: flex; gap: .75rem; align-items: center; padding: .7rem 0; border-top: 1px solid var(--borde); }
+.item:first-child { border-top: none; }
+.item-info { flex: 1; min-width: 0; }
+.item-titulo { font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.item-detalle { font-size: .8rem; color: var(--suave); }
+.item-monto { font-weight: 700; white-space: nowrap; }
+.item-monto.gasto { color: var(--rojo); }
+.item-monto.ingreso { color: var(--verde); }
+.item-acciones { display: flex; gap: .25rem; }
+.item-acciones button {
+  width: 36px; height: 36px; border: 1px solid var(--borde); border-radius: 8px; background: #fff; cursor: pointer;
+}
+.item.editando { background: #fef9c3; }
+
+/* ---------- Aviso flotante ---------- */
+.aviso {
+  position: fixed; left: 50%; bottom: 1.25rem; transform: translateX(-50%);
+  background: var(--texto); color: #fff; padding: .6rem 1rem; border-radius: 999px;
+  font-size: .9rem; box-shadow: 0 4px 12px rgb(0 0 0 / .2); z-index: 20;
+}
+
+/* Celular: columnas invisibles; orden = form, categorías, personas, lista */
+.columna { display: contents; }
+.seccion-form { order: 1; }
+.seccion-categorias { order: 2; }
+.seccion-personas { order: 3; }
+.seccion-lista { order: 4; }
+
+/* ---------- Pantallas grandes (PC) ---------- */
+@media (min-width: 900px) {
+  .contenido { display: grid; grid-template-columns: 380px 1fr; align-items: start; }
+  .mes, .totales { grid-column: 1 / -1; }
+  .totales .total strong { font-size: 1.3rem; }
+  .columna { display: flex; flex-direction: column; gap: 1rem; }
+  .col-izq { position: sticky; top: 4rem; }
+}

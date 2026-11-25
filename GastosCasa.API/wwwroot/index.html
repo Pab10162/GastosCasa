@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0f766e">
+  <title>Gastos de casa</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icono.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+
+  <!-- ================= LOGIN ================= -->
+  <main id="pantalla-login" class="login" hidden>
+    <h1>🏠 Gastos de casa</h1>
+
+    <div class="pestanias">
+      <button type="button" class="pestania activa" data-modo="login">Ingresar</button>
+      <button type="button" class="pestania" data-modo="registro">Crear cuenta</button>
+    </div>
+
+    <form id="form-login" class="tarjeta" autocomplete="on">
+      <label>Nombre
+        <input name="nombre" required autocomplete="username" maxlength="30">
+      </label>
+      <label>Contraseña
+        <input name="password" type="password" required autocomplete="current-password">
+      </label>
+      <label class="solo-registro" hidden>Código de la casa
+        <input name="codigoCasa" autocomplete="off">
+      </label>
+      <p class="error" id="error-login" role="alert"></p>
+      <button type="submit" class="boton-principal" id="boton-login">Ingresar</button>
+    </form>
+  </main>
+
+  <!-- ================= APP ================= -->
+  <div id="pantalla-app" hidden>
+    <header class="barra">
+      <span>🏠 Gastos de casa</span>
+      <span class="usuario"><span id="nombre-usuario"></span> · <button type="button" id="boton-salir" class="link">Salir</button></span>
+    </header>
+
+    <main class="contenido">
+      <nav class="mes">
+        <button type="button" id="mes-anterior" aria-label="Mes anterior">‹</button>
+        <h2 id="titulo-mes"></h2>
+        <button type="button" id="mes-siguiente" aria-label="Mes siguiente">›</button>
+      </nav>
+
+      <section class="totales">
+        <div class="total ingreso"><small>Ingresos</small><strong id="total-ingresos">–</strong></div>
+        <div class="total gasto"><small>Gastos</small><strong id="total-gastos">–</strong></div>
+        <div class="total balance"><small>Balance</small><strong id="total-balance">–</strong></div>
+      </section>
+
+      <!-- En PC hay dos columnas. En el celular las columnas "desaparecen"
+           (display: contents) y el orden lo da la propiedad CSS "order". -->
+      <div class="columna col-izq">
+      <!-- Formulario de carga: lo primero que se ve, porque es lo que más se usa -->
+      <section class="tarjeta seccion-form">
+        <h3 id="titulo-form">Nuevo movimiento</h3>
+        <form id="form-movimiento">
+          <div class="selector-tipo">
+            <label><input type="radio" name="tipo" value="Gasto" checked><span>Gasto</span></label>
+            <label><input type="radio" name="tipo" value="Ingreso"><span>Ingreso</span></label>
+          </div>
+          <label>Monto
+            <input name="monto" inputmode="decimal" placeholder="0,00" required autocomplete="off">
+          </label>
+          <label>Categoría
+            <select name="categoriaId" required></select>
+          </label>
+          <label>Fecha
+            <input name="fecha" type="date" required>
+          </label>
+          <label>Descripción <small>(opcional)</small>
+            <input name="descripcion" maxlength="100" placeholder="Ej: compra del súper" autocomplete="off">
+          </label>
+          <p class="error" id="error-form" role="alert"></p>
+          <div class="acciones">
+            <button type="button" id="boton-cancelar" class="boton-secundario" hidden>Cancelar</button>
+            <button type="submit" class="boton-principal" id="boton-guardar">Guardar</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="tarjeta seccion-personas">
+        <h3>Gastos por persona</h3>
+        <div id="grafico-personas" class="barras personas"></div>
+      </section>
+      </div>
+
+      <div class="columna col-der">
+      <section class="tarjeta seccion-categorias">
+        <h3>Gastos por categoría</h3>
+        <div id="grafico-categorias" class="barras"></div>
+      </section>
+
+      <section class="tarjeta seccion-lista">
+        <h3>Movimientos</h3>
+        <div class="filtros">
+          <select id="filtro-usuario"><option value="">Todos</option></select>
+          <select id="filtro-tipo">
+            <option value="">Gastos e ingresos</option>
+            <option value="Gasto">Solo gastos</option>
+            <option value="Ingreso">Solo ingresos</option>
+          </select>
+          <select id="filtro-categoria"><option value="">Todas las categorías</option></select>
+        </div>
+        <ul id="lista-movimientos" class="lista"></ul>
+      </section>
+      </div>
+    </main>
+  </div>
+
+  <div id="aviso" class="aviso" role="status" hidden></div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
